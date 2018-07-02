@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-# A Blank PhoneGap App
-
-## Usage
-
-### PhoneGap CLI
-
-    $ phonegap create my-app --template blank
-
-### Desktop
-
-In your browser, open the file:
-
-    /www/index.html
-
-=======
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/marijanailic/algorithms/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
@@ -51,4 +35,3 @@ Your Pages site will use the layout and styles from the Jekyll theme you have se
 ### Support or Contact
 
 Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
->>>>>>> 5d888864f9ae89ec45a750a96d1b5ba40ad83a5a
