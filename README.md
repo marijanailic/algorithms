@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-# A Blank PhoneGap App
+
+# A Master Algorithms
 
 ## Usage
 
@@ -12,4 +12,8 @@
 In your browser, open the file:
 
     /www/index.html
+    
+### Online
+In your browser open:
 
+    https://marijanailic.github.io/algorithms/www/index.html
