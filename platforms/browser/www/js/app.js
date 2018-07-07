@@ -1,18 +1,18 @@
 var treeData =
   {
-    "name": "A",
+    "name": "0",
     "children": [
       { 
-		"name": "B",
+		"name": "1",
         "children": [
-          { "name": "D" },
-          { "name": "E" }
+          { "name": "3" },
+          { "name": "4" }
         ]
       },
-      { "name": "C",
+      { "name": "2",
       "children": [
-        { "name": "F" },
-        { "name": "G" }
+        { "name": "5" },
+        { "name": "6" }
       ] }
     ]
   };
@@ -66,6 +66,7 @@ var node = g.selectAll(".node")
 
 // adds the circle to the node
 node.append("circle")
+.attr("id", function(d){return "node-"+d.data.name})
   .attr("r", 10);
 
 // adds the text to the node
@@ -74,3 +75,49 @@ node.append("text")
   .attr("y", function(d) { return d.children ? -20 : 20; })
   .style("text-anchor", "middle")
   .text(function(d) { return d.data.name; });
+
+  function selectSubtree(node)
+{
+    d3.select("#" + node.data.name).style("fill", "black");
+}
+
+function findNode(name){
+  return d3.select("#node"+name);
+}
+var selected=findNode("1");
+selectSubtree(selected);
+
+function matrix(rows, cols, defaultValue){
+  var arr = [];
+  for(var i=0; i < rows; i++){
+      arr.push([]);
+      arr[i].push( new Array(cols));
+      for(var j=0; j < cols; j++){
+        arr[i][j] = defaultValue;
+      }
+  }
+
+return arr;
+}
+
+function adjMatrix(){
+  var count=node.data().length;
+ var m= matrix(count, count,0);
+  
+  d3.selectAll('.node')
+  .each(function(d) {
+    var row=d.data.name;
+    for(var c in d.data.children){
+      var column=d.data.children[c].name;
+      m[row][column]=1;
+    }
+   
+  });
+  return m;
+}
+
+
+
+var graph=adjMatrix();
+window.bfs(graph,0,5);
+//window.dfs(graph,0,5);

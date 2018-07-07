@@ -3,7 +3,17 @@
   stroke: steelblue;
   stroke-width: 3px;
 }
+circle.visited{
+  fill: #eee;
+  stroke: navy;
+  stroke-width: 3px;
+}
 
+circle.red {
+  fill: #eee;
+  stroke:red;
+  stroke-width: 3px;
+}
 .node text { font: 12px sans-serif; }
 
 .node--internal text {
@@ -14,4 +24,10 @@
   fill: none;
   stroke: #ccc;
   stroke-width: 2px;
+}
+.visited{
+  color: navy;
+}
+.path{
+  color: red;
 }
