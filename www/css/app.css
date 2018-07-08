@@ -1,9 +1,4 @@
 .node circle {
-  -webkit-transition: all 1s linear !important;
-  -moz-transition: all 1s linear !important;
-  -o-transition: all 1s linear;
-  transition: all 1s linear;
-
   fill: antiquewhite;
   stroke: steelblue;
   stroke-width: 3px;
@@ -16,7 +11,6 @@
 .node circle.red {
   stroke:red;
   stroke-width: 3px;
-  transition-delay: 2s;
 }
 .node text { 
   font: 14px sans-serif;
