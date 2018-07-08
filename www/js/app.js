@@ -35,9 +35,11 @@ nodes = treemap(nodes);
 // append the svg obgect to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
-var svg = d3.select("body").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom),
+var svg = d3.select("#graph").append("svg")
+     // .attr("width", width + margin.left + margin.right)
+    //  .attr("height", height + margin.top + margin.bottom)
+      .attr("preserveAspectRatio", "xMinYMin meet")
+      .attr("viewBox", "0 0 660 500"),
     g = svg.append("g")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
@@ -67,12 +69,12 @@ var node = g.selectAll(".node")
 // adds the circle to the node
 node.append("circle")
 .attr("id", function(d){return "node-"+d.data.name})
-  .attr("r", 10);
+  .attr("r", 15);
 
 // adds the text to the node
 node.append("text")
   .attr("dy", ".35em")
-  .attr("y", function(d) { return d.children ? -20 : 20; })
+  .attr("y", function(d) { return d.children ? 0 : 0; })
   .style("text-anchor", "middle")
   .text(function(d) { return d.data.name; });
 

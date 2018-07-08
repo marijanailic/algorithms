@@ -1,20 +1,27 @@
 .node circle {
-  fill: #fff;
+  -webkit-transition: all 1s linear !important;
+  -moz-transition: all 1s linear !important;
+  -o-transition: all 1s linear;
+  transition: all 1s linear;
+
+  fill: antiquewhite;
   stroke: steelblue;
   stroke-width: 3px;
 }
-circle.visited{
-  fill: #eee;
+.node circle.visited{
   stroke: navy;
   stroke-width: 3px;
 }
 
-circle.red {
-  fill: #eee;
+.node circle.red {
   stroke:red;
   stroke-width: 3px;
+  transition-delay: 2s;
 }
-.node text { font: 12px sans-serif; }
+.node text { 
+  font: 14px sans-serif;
+  color:#fff;
+}
 
 .node--internal text {
   text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;

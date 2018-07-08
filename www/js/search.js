@@ -11,9 +11,9 @@
     }
 
     function colorNode(targetNode){
-      var node=d3.select("#node-"+targetNode);
-          node.classed("red",true);
-          node.classed("visited",false);
+      var node=d3.select("#node-"+targetNode).transition()
+      .attr("delay", function(d,i){return 2000;})
+      .style("stroke", "red");
     }
 
     function buildPath(parents, targetNode) {
@@ -73,9 +73,11 @@
                 parents[i] = current;
                 visited[i] = true;
                 queue.push(i);
-                var node=d3.select("#node-"+i);
-                node.classed("visited",true);
-                //sleep(2000);
+                d3.select("#node-"+i)
+                .transition()
+                .attr("delay", function(d,i){return 3000;})
+                .style("stroke", "navy")
+                .style("fill", "#ccc");
                
               }
             }
