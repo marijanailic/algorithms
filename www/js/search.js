@@ -12,8 +12,9 @@
 
     function colorNode(targetNode){
       var node=d3.select("#node-"+targetNode).transition()
-      .attr("delay", function(d,i){return 2000;})
-      .style("stroke", "red");
+      .style("stroke", "red")
+      .delay(8000)
+      .duration(1000)
     }
 
     function buildPath(parents, targetNode) {
@@ -75,10 +76,11 @@
                 queue.push(i);
                 d3.select("#node-"+i)
                 .transition()
-                .attr("delay", function(d,i){return 3000;})
                 .style("stroke", "navy")
-                .style("fill", "#ccc");
-               
+                .style("fill", "#ccc")
+                .delay(function(){return 1000*i})
+                .duration(1000)
+                
               }
             }
           }
