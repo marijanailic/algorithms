@@ -121,5 +121,5 @@ function adjMatrix(){
 
 
 var graph=adjMatrix();
-window.bfs(graph,0,5);
-//window.dfs(graph,0,5);
+//window.bfs(graph,0,5);
+

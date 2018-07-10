@@ -17,6 +17,15 @@
       .duration(1000)
     }
 
+    function colorVisitedNode(i){
+      d3.select("#node-"+i)
+                .transition()
+                .style("stroke", "navy")
+                .style("fill", "#ccc")
+                .delay(function(){return 1000*i})
+                .duration(1000)
+    }
+
     function buildPath(parents, targetNode) {
         var result = [targetNode];   
         colorNode(targetNode);
@@ -28,30 +37,31 @@
         return result.reverse();
       }
 
-      function hasPath(graph, current, goal) {
+    var dfs = (function () {
+      return function (graph, startNode, targetNode) {
+        var parents = [];
         var stack = [];
         var visited = [];
-        var node;
-        stack.push(current);
+        var current;
+        stack.push(startNode);
+        parents[startNode] = null;
         visited[current] = true;
         while (stack.length) {
-          node = stack.pop();
-          if (node === goal) {
-            return true;
+          current = stack.pop();
+          if (current === targetNode) {
+            return buildPath(parents, targetNode);
           }
-          for (var i = 0; i < graph[node].length; i += 1) {
-            if (graph[node][i] && !visited[i]) {
+          for (var i = 0; i < graph.length; i += 1) {
+            if (i !== current && graph[current][i] && !visited[i]) {
+              parents[i] = current;
               stack.push(i);
               visited[i] = true;
+              colorVisitedNode(i);
             }
           }
-        }
-        return false;
-      } 
 
-    var dfs = (function () {
-      return function (graph, start, goal) {
-        return hasPath(graph, start, goal);
+        }
+        return null;
       };
     }());
 
@@ -74,12 +84,7 @@
                 parents[i] = current;
                 visited[i] = true;
                 queue.push(i);
-                d3.select("#node-"+i)
-                .transition()
-                .style("stroke", "navy")
-                .style("fill", "#ccc")
-                .delay(function(){return 1000*i})
-                .duration(1000)
+                colorVisitedNode(i);
                 
               }
             }

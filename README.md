@@ -17,3 +17,4 @@ In your browser, open the file:
 In your browser open:
 
     https://marijanailic.github.io/algorithms/www/index.html
+    https://marijanailic.github.io/algorithms/www/dfs.html
