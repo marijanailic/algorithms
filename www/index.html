@@ -20,6 +20,29 @@
     <script type="text/javascript" src="./js/search.js"></script>
     <script type="text/javascript" src="./js/app.js"></script>
     <script>
+
+          var treeData =
+                {
+                "name": "0",
+                "children": [
+                    {
+                    "name": "1",
+                    "children": [
+                        { "name": "3" },
+                        { "name": "4" }
+                    ]
+                    },
+                    {
+                    "name": "2",
+                    "children": [
+                        { "name": "5" },
+                        { "name": "6" }
+                    ]
+                    }
+                ]
+                };
+           // window.bfs(graph,0,5);
+           var graph=window.graph(treeData);
             window.bfs(graph,0,5);
         </script>
 </html>
