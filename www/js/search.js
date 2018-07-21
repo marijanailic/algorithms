@@ -21,7 +21,6 @@
       d3.select("#node-"+i)
                 .transition()
                 .style("stroke", "navy")
-                .style("fill", "#ccc")
                 .delay(function(){return 1000*i})
                 .duration(1000)
     }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Master Algorithms</title>
+        <link rel="stylesheet" href="./css/app.css">
+    </head>
+    <body>
+        <h1>Depth First Search</h1>
+        <p>Start: 0 End: 5 <br/>
+        <b>Legend:</b><span class=visited> Visited </span><span class="path"> Path</span></p>
+        <div id="graph"></div>
+        <div id="explain">Depth First search starts at the tree root and explores and explores as far as possible along each branch before backtracking</div>
+        <button id="step">Next</button>
+
+    </body>
+  <!--  <script src="cordova.js"></script> -->
+    <script type="text/javascript" src="./js/d3.js"></script>
+    <script type="text/javascript" src="./js/search.js"></script>
+    <script type="text/javascript" src="./js/app.js"></script>
+    <script>
+
+            var treeData =
+                  {
+                  "name": "0",
+                  "children": [
+                      {
+                      "name": "1",
+                      "children": [
+                          { "name": "2" },
+                          { "name": "3" },
+                          { "name": "4",
+                          "children": [
+                            { "name": "5" },
+                            { "name": "6" }] }
+                      ]
+                      },
+                      {
+                      "name": "7",
+                      "children": [
+                          { "name": "8" },
+                          { "name": "9" }
+                      ]
+                      }
+                  ]
+                  };
+             var graph=window.graph(treeData);
+            // console.log(graph);
+              window.dfs(graph,0,5);
+          </script>
+</html>

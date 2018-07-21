@@ -74,6 +74,11 @@
             + " " + d.parent.x + "," + d.parent.y;
         });
 
+        link.append("text")
+            .text(function (d) {return "d.type";});
+
+       
+
       // adds each node as a group
       var node = g.selectAll(".node")
         .data(nodes.descendants())
@@ -89,7 +94,7 @@
       // adds the circle to the node
       node.append("circle")
         .attr("id", function (d) { return "node-" + d.data.name })
-        .attr("r", 15);
+        .attr("r", 25);
 
       // adds the text to the node
       node.append("text")
