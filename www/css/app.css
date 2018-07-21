@@ -4,7 +4,7 @@
   stroke-width: 3px;
 }
 .node circle.visited{
-  stroke: navy;
+  stroke: yellow;
   stroke-width: 3px;
 }
 
@@ -27,7 +27,7 @@
   stroke-width: 5px;
 }
 .visited{
-  color: navy;
+  color: yellowgreen;
 }
 .path{
   color: red;

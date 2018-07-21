@@ -20,7 +20,7 @@
     function colorVisitedNode(i){
       d3.select("#node-"+i)
                 .transition()
-                .style("stroke", "navy")
+                .style("stroke", "yellowgreen")
                 .delay(function(){return 1000*i})
                 .duration(1000)
     }
