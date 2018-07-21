@@ -1,15 +1,23 @@
+/*color scheme*/
+:root {
+  --fresh-color:#4ABDAC;
+  --vermillion-color:#FC4A1A;
+  --sunshine-color:#F7B733;
+  --clean-color:#DFDCE3;
+}
+
 .node circle {
-  fill: white;
-  stroke: steelblue;
+  fill: var(--fresh-color);
+  stroke: var(--fresh-color);
   stroke-width: 3px;
 }
 .node circle.visited{
-  stroke: yellow;
+  stroke: var(--sunshine-color);
   stroke-width: 3px;
 }
 
 .node circle.red {
-  stroke:red;
+  stroke:var(--vermillion-color);
   stroke-width: 3px;
 }
 .node text { 
@@ -27,11 +35,93 @@
   stroke-width: 5px;
 }
 .visited{
-  color: yellowgreen;
+  color: var(--sunshine-color);
 }
 .path{
-  color: red;
+  color: var(--vermillion-color);
 }
 #graph svg{
   max-height:600px;
+}
+
+
+
+/*Menu Styles*/
+ul {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+  position: absolute;
+}
+/*Create a horizontal list with spacing*/
+li {
+  display:inline-block;
+  float: left;
+  margin-right: 1px;
+}
+/*Style for menu links*/
+li a {
+  display:block;
+  min-width:140px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #fff;
+  background: var(--sunshine-color);
+  text-decoration: none;
+}
+/*Hover state for top level links*/
+li:hover a {
+  background:var(--fresh-color);
+}
+/*Style for dropdown links*/
+li:hover ul a {
+  background: #f3f3f3;
+  color: #2f3036;
+  height: 40px;
+  line-height: 40px;
+}
+/*Hover state for dropdown links*/
+li:hover ul a:hover {
+  background:var(--fresh-color);
+  color: #fff;
+}
+/*Responsive Styles*/
+@media screen and (max-width : 760px){
+  /*Make dropdown links appear inline*/
+  ul {
+      position: static;
+      display: none;
+  }
+  /*Create vertical spacing*/
+  li {
+      margin-bottom: 1px;
+  }
+  /*Make all menu links full width*/
+  ul li, li a {
+      width: 100%;
+  }
+}
+/*Style 'show menu' label button and hide it by default*/
+.show-menu {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-decoration: none;
+  color: #fff;
+  background:var(--fresh-color);
+  text-align: center;
+  padding: 10px 0;
+  display: none;
+}
+/*Hide checkbox*/
+input[type=checkbox]{
+  display: none;
+}
+/*Show menu when invisible checkbox is checked*/
+input[type=checkbox]:checked ~ #menu{
+  display: block;
+}
+   /*Display 'show menu' link*/
+   .show-menu {
+    display:block;
 }

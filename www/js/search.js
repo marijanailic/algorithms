@@ -12,7 +12,8 @@
 
     function colorNode(targetNode){
       var node=d3.select("#node-"+targetNode).transition()
-      .style("stroke", "red")
+      .style("stroke", "#FC4A1A")
+      .style("fill", "#FC4A1A")
       .delay(8000)
       .duration(1000)
     }
@@ -20,7 +21,8 @@
     function colorVisitedNode(i){
       d3.select("#node-"+i)
                 .transition()
-                .style("stroke", "yellowgreen")
+                .style("stroke", "#F7B733")
+                .style("fill", "#F7B733")
                 .delay(function(){return 1000*i})
                 .duration(1000)
     }
