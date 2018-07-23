@@ -37,7 +37,6 @@ blockquote::before{
 blockquote span{
   display:block;
   color:var(--vermillion-color) ;
-  margin-top:1em;
 }
 /*graph styles*/
 .node circle {
@@ -77,8 +76,14 @@ blockquote span{
 #graph svg{
   max-height:600px;
 }
-
-
+marker {
+  stroke: #999;
+  fill:rgba(124,240,10,0);
+}
+.end-link{
+  stroke: #999;
+  stroke-opacity: .6;
+}
 
 /*Menu Styles*/
 ul {

@@ -50,12 +50,7 @@
       // maps the node data to the tree layout
       nodes = treemap(nodes);
 
-      // append the svg obgect to the body of the page
-      // appends a 'group' element to 'svg'
-      // moves the 'group' element to the top left margin
       var svg = d3.select("#graph").append("svg")
-        // .attr("width", width + margin.left + margin.right)
-        //  .attr("height", height + margin.top + margin.bottom)
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", "0 0 660 500"),
         g = svg.append("g")
