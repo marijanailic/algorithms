@@ -48,7 +48,7 @@
         parents[startNode] = null;
         visited[current] = true;
         while (stack.length) {
-          current = stack.shift();
+          current = stack.pop();
           if (current === targetNode) {
             return buildPath(parents, targetNode);
           }

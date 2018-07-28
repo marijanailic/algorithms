@@ -10,11 +10,16 @@
 
 <body>
     <label class="show-menu">Uniform Coast Search</label>
-        <p>Start: A End: F <br/>
-        <b>Legend:</b><span class=visited> Visited </span><span class="path"> Path</span></p>
-        <div id="graph"></div>
-        <div id="explain">Uniform Coast Search starts at the tree root and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.</div>
-        <button id="step">Next</button>
+    <p>Start: A End: F
+        <br/>
+        <b>Legend:</b>
+        <span class=visited> Visited </span>
+        <span class="path"> Path</span>
+    </p>
+    <div id="graph"></div>
+    <div id="explain">Uniform Coast Search starts at the tree root and explores all of the neighbor nodes at the present depth prior to moving
+        on to the nodes at the next depth level.</div>
+    <button id="step">Next</button>
 
 </body>
 <!--  <script src="cordova.js"></script> -->
@@ -23,23 +28,19 @@
 <script type="text/javascript" src="./js/directedgraph.js"></script>
 <script>
 
-  var triples = [
-  			{subject:"A", 	predicate:"20", 	object:"B"},
-  			{subject:"B", 	predicate:"20", 		object:"C"},
-  			{subject:"C", 	predicate:"35", 	object:"D"},
-  			{subject:"D", 	predicate:"28", 	object:"E"},
-  			{subject:"D", 	predicate:"45", 	object:"B"},
-              {subject:"E", 		predicate:"30", 	object:"A"},
-              {subject:"E", 		predicate:"30", 	object:"F"},
+    var triples = [
+        { subject: "A", predicate: "20", object: "B" },
+        { subject: "B", predicate: "20", object: "C" },
+        { subject: "C", predicate: "35", object: "D" },
+        { subject: "D", predicate: "28", object: "E" },
+        { subject: "D", predicate: "45", object: "B" },
+        { subject: "E", predicate: "30", object: "A" },
+        { subject: "E", predicate: "30", object: "F" },
+        { subject: "F", predicate: "30", object: "A" },
+        { subject: "F", predicate: "30", object: "G" },
+        { subject: "G", predicate: "20", object: "C" }
+    ];
 
-              {subject:"F", 		predicate:"30", 	object:"A"},
-              {subject:"F", 		predicate:"30", 	object:"G"},
-              {subject:"G", 		predicate:"20", 	object:"C"}
-
-
-
-  		];
-		
 
     var graph = window.directedgraph(triples);
     // console.log(graph);

@@ -8,9 +8,19 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
 body{
   font-family:Open Sans;
- 
 }
-
+body:after {
+  content : "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("../img/background.png");
+  width: 100%;
+  height: 100%;
+  opacity : 0.2;
+  z-index: -1;
+}
 
 /*quote*/
 blockquote{
@@ -74,7 +84,7 @@ blockquote span{
   color: var(--vermillion-color);
 }
 #graph svg{
-  max-height:600px;
+  max-height:660px;
 }
 marker {
   stroke: #999;
@@ -101,7 +111,7 @@ li {
   text-align: center;
 }
 /*Style for menu links*/
-li a {
+li a, .back a {
   display:block;
   min-width:140px;
   height: 50px;
@@ -170,4 +180,10 @@ input[type=checkbox]:checked ~ #menu{
    /*Display 'show menu' link*/
    .show-menu {
     display:block;
+}
+/*.text-content{
+  background: linear-gradient(110deg, var(--fresh-color) 50%, var(--sunshine-color) 50%);
+}*/
+.text-content p {
+  text-align:justify;
 }

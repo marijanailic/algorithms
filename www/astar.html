@@ -9,41 +9,167 @@
 </head>
 
 <body>
-    <label class="show-menu">Uniform Coast Search</label>
-        <p>Start: A End: F <br/>
-        <b>Legend:</b><span class=visited> Visited </span><span class="path"> Path</span></p>
-        <div id="graph"></div>
-        <div id="explain">Uniform Coast Search starts at the tree root and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.</div>
-        <button id="step">Next</button>
-
+    <label class="show-menu">A* Search</label>
+    <p>Start: Arad End: Bucharest
+        <br/>
+        <b>Legend:</b>
+        <span class=visited> Visited </span>
+        <span class="path"> Path</span>
+    </p>
+    <div id="graph"></div>
+    <div id="explored">Explored Path</div>
+    <div id="explain" class="text-content">
+        <p>A * search evaluates nodes by combining g(n), the cost to reach the node, and h(n), the cost to get from the node
+            to the final goal:</p>
+        <p>f(n)=g(n)+h(n)</p>
+        <p>Since g(n) fives the path cost from start node to node n, and h(n) is the estimated cost of the cheapest path from
+            n to the goal, we have</p>
+        <p>f(n)=estimated cost of the cheapest solution through n</p>
+        <p>Thus, if we are trying to find the cheapest solution, a reasonable thing to try first is the node with the lowest
+            value of g(n)+h(n). Provided that the heuristic function h(n) satisfies certain conditions, A* search is both
+            complete and optimal. The algorithm is identical to uniform cost search except that A* uses g+h instead of g</p>
+    </div>
+    <button id="step">Next</button>
+    <div class="back">
+            <a href="index.html">BACK</a>
+        </div>
 </body>
 <!--  <script src="cordova.js"></script> -->
 <script type="text/javascript" src="./js/d3.js"></script>
-<script type="text/javascript" src="./js/search.js"></script>
+<script type="text/javascript" src="./js/heap.js"></script>
 <script type="text/javascript" src="./js/directedgraph.js"></script>
+<script type="text/javascript" src="./js/astar.js"></script>
+
 <script>
 
-  var triples = [
-  			{subject:"A", 	predicate:"20", 	object:"B"},
-  			{subject:"B", 	predicate:"20", 		object:"C"},
-  			{subject:"C", 	predicate:"35", 	object:"D"},
-  			{subject:"D", 	predicate:"28", 	object:"E"},
-  			{subject:"D", 	predicate:"45", 	object:"B"},
-              {subject:"E", 		predicate:"30", 	object:"A"},
-              {subject:"E", 		predicate:"30", 	object:"F"},
+    var triples = [
+        { subject: "Oradea", predicate: 151, object: "Sibiu" },
+        { subject: "Oradea", predicate: 71, object: "Zerind" },
+        { subject: "Arad", predicate: 75, object: "Zerind" },
+        { subject: "Sibiu", predicate: 99, object: "Fagaras" },
+        { subject: "Sibiu", predicate: 80, object: "Rimnicu Vilcea" },
+        { subject: "Fagaras", predicate: 221, object: "Bucharest" },
+        { subject: "Bucharest", predicate: 90, object: "Glurgiu" },
+        { subject: "Bucharest", predicate: 85, object: "Urziceni" },
+        { subject: "Bucharest", predicate: 101, object: "Pitesti" },
+        { subject: "Urziceni", predicate: 98, object: "Hirsova" },
+        { subject: "Urziceni", predicate: 142, object: "Vaslui" },
+        { subject: "Vaslui", predicate: 92, object: "Iasi" },
+        { subject: "Iasi", predicate: 87, object: "Neamt" },
+        { subject: "Pitesti", predicate: 97, object: "Rimnicu Vilcea" },
+        { subject: "Rimnicu Vilcea", predicate: 80, object: "Sibiu" },
+        { subject: "Rimnicu Vilcea", predicate: 146, object: "Craiova" },
+        { subject: "Pitesti", predicate: 138, object: "Craiova" },
+        { subject: "Craiova", predicate: 120, object: "Drobeta" },
+        { subject: "Drobeta", predicate: 75, object: "Mehadia" },
+        { subject: "Mehadia", predicate: 70, object: "Lugonj" },
+        { subject: "Lugonj", predicate: 70, object: "Timisoara" },
+        { subject: "Timisoara", predicate: 118, object: "Arad" },
+        //both directions are allowed
+        { object: "Oradea", predicate: 151, subject: "Sibiu" },
+        { object: "Oradea", predicate: 71, subject: "Zerind" },
+        { object: "Arad", predicate: 75, subject: "Zerind" },
+        { object: "Sibiu", predicate: 99, subject: "Fagaras" },
+        { object: "Sibiu", predicate: 80, subject: "Rimnicu Vilcea" },
+        { object: "Fagaras", predicate: 221, subject: "Bucharest" },
+        { object: "Bucharest", predicate: 90, subject: "Glurgiu" },
+        { object: "Bucharest", predicate: 85, subject: "Urziceni" },
+        { object: "Bucharest", predicate: 101, subject: "Pitesti" },
+        { object: "Urziceni", predicate: 98, subject: "Hirsova" },
+        { object: "Urziceni", predicate: 142, subject: "Vaslui" },
+        { object: "Vaslui", predicate: 92, subject: "Iasi" },
+        { object: "Iasi", predicate: 87, subject: "Neamt" },
+        { object: "Pitesti", predicate: 97, subject: "Rimnicu Vilcea" },
+        { object: "Rimnicu Vilcea", predicate: 80, subject: "Sibiu" },
+        { object: "Rimnicu Vilcea", predicate: 146, subject: "Craiova" },
+        { object: "Pitesti", predicate: 138, subject: "Craiova" },
+        { object: "Craiova", predicate: 120, subject: "Drobeta" },
+        { object: "Drobeta", predicate: 75, subject: "Mehadia" },
+        { object: "Mehadia", predicate: 70, subject: "Lugonj" },
+        { object: "Lugonj", predicate: 70, subject: "Timisoara" },
+        { object: "Timisoara", predicate: 118, subject: "Arad" }
+    ];
 
-              {subject:"F", 		predicate:"30", 	object:"A"},
-              {subject:"F", 		predicate:"30", 	object:"G"},
-              {subject:"G", 		predicate:"20", 	object:"C"}
+    function matrix(rows, cols, defaultValue) {
+        var arr = [];
+        for (var i = 0; i < rows; i++) {
+            arr.push([]);
+            arr[i].push(new Array(cols));
+            for (var j = 0; j < cols; j++) {
+                arr[i][j] = defaultValue;
+            }
+        }
 
+        return arr;
+    };
 
+    function findGraphLink(nodes, id) {
+        return nodes.filter(function (n) { return n.id === id; })[0];
+    };
 
-  		];
-		
+    function colorPath(targetNodeX, targetNodeY) {
+        var node = d3.select("#node-" + targetNodeX).transition()
+            .style("stroke", "#FC4A1A")
+            .style("fill", "#FC4A1A")
+            .delay(8000)
+            .duration(1000)
 
-    var graph = window.directedgraph(triples);
-    // console.log(graph);
-    //window.dfs(graph, 0, 5);
+        var node = d3.select("#node-" + targetNodeY).transition()
+            .style("stroke", "#FC4A1A")
+            .style("fill", "#FC4A1A")
+            .delay(8000)
+            .duration(1000)
+
+        var line = d3.select("#line-" + targetNodeX + "-" + targetNodeY).transition()
+            .style("stroke", "#FC4A1A")
+            .style("stroke-width", "3")
+            .delay(8000)
+            .duration(1000)
+    }
+
+    function colorVisitedNode(x, y) {
+        d3.select("#node-" + x)
+            .transition()
+            .style("stroke", "#F7B733")
+            .style("fill", "#F7B733")
+            .delay(function () { return 1000 * x })
+            .duration(1000)
+
+        d3.select("#node-" + y)
+            .transition()
+            .style("stroke", "#F7B733")
+            .style("fill", "#F7B733")
+            .delay(function () { return 1000 * x })
+            .duration(1000)
+
+        var line = d3.select("#line-" + x + "-" + y).transition()
+            .style("stroke", "#F7B733")
+            .style("stroke-width", "3")
+            .delay(function () { return 1000 * x })
+            .duration(1000)
+
+        var graphLink = findGraphLink(graph.links, x + "-" + y)
+        if (graphLink) {
+            var exploredText = "Explored " + graphLink.source.label + " " + graphLink.target.label + " " + graphLink.predicate + "km";
+
+            document.getElementById("explored").innerText = exploredText;
+
+            console.log(exploredText);
+        }
+    }
+
+    var graph = window.directedgraph(triples, 1);
+
+    var count = graph.nodes.length;
+    var matrix = matrix(count, count, Infinity);
+    console.log(matrix);
+    graph.links.forEach(link => {
+        matrix[link.source.index][link.target.index] = link.predicate;
+    });
+    console.log(matrix);
+    var shortestDist = window.astar(3, 6, matrix, colorVisitedNode, colorPath);
+    console.log(shortestDist);
+
 </script>
 
 </html>

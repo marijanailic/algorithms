@@ -10,40 +10,88 @@
 
 <body>
     <label class="show-menu">Uniform Cost Search</label>
-        <p>Start: A End: F <br/>
-        <b>Legend:</b><span class=visited> Visited </span><span class="path"> Path</span></p>
-        <div id="graph"></div>
-        <div id="explain">Uniform Cost Search starts at the tree root and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.</div>
-        <button id="step">Next</button>
-
+    <p>Start: A End: F
+        <br/>
+        <b>Legend:</b>
+        <span class=visited> Visited </span>
+        <span class="path"> Path</span>
+    </p>
+    <div id="graph"></div>
+    <div id="explain">
+        <p>When all step costs are equal, breadth-first search is optimal because it always expands the shallowest unexpanded
+            node. By a simple extension, we can find an algorithm that is optimal with any step-cost function. Instead of
+            expanding shallowest node, uniform-cost search expands the node n with the lowest path cost g(n). This is done
+            by storing the frontier as a priority queue ordered by g</p>
+        <p>In addition to the ordering of the queue by path cost, there are two other significant differences from breadth first
+            search. The first is that the goal test is applied to a node when it is selected for expansion rather when it
+            is first generated. The reason is that the first goal node that is generated may be on a suboptimal path. The
+            second difference is that a test is added in case a better path is found to a node currently the frontier.</p>
+    </div>
+    <button id="step">Next</button>
+    <div class="back">
+        <a href="index.html">BACK</a>
+    </div>
 </body>
 <!--  <script src="cordova.js"></script> -->
 <script type="text/javascript" src="./js/d3.js"></script>
-<script type="text/javascript" src="./js/search.js"></script>
+<script type="text/javascript" src="./js/heap.js"></script>
 <script type="text/javascript" src="./js/directedgraph.js"></script>
+<script type="text/javascript" src="./js/ucs.js"></script>
+
 <script>
+    function matrix(rows, cols, defaultValue) {
+        var arr = [];
+        for (var i = 0; i < rows; i++) {
+            arr.push([]);
+            arr[i].push(new Array(cols));
+            for (var j = 0; j < cols; j++) {
+                arr[i][j] = defaultValue;
+            }
+        }
 
-  var triples = [
-  			{subject:"A", 	predicate:"20", 	object:"B"},
-  			{subject:"B", 	predicate:"20", 		object:"C"},
-  			{subject:"C", 	predicate:"35", 	object:"D"},
-  			{subject:"D", 	predicate:"28", 	object:"E"},
-  			{subject:"D", 	predicate:"45", 	object:"B"},
-              {subject:"E", 		predicate:"30", 	object:"A"},
-              {subject:"E", 		predicate:"30", 	object:"F"},
+        return arr;
+    }
 
-              {subject:"F", 		predicate:"30", 	object:"A"},
-              {subject:"F", 		predicate:"30", 	object:"G"},
-              {subject:"G", 		predicate:"20", 	object:"C"}
+    var triples = [
+        { subject: "A", predicate: 20, object: "B" },
+        { subject: "B", predicate: 20, object: "C" },
+        { subject: "C", predicate: 35, object: "D" },
+        { subject: "D", predicate: 28, object: "E" },
+        { subject: "D", predicate: 45, object: "B" },
+        { subject: "E", predicate: 30, object: "A" },
+        { subject: "E", predicate: 30, object: "F" },
+        { subject: "F", predicate: 30, object: "A" },
+        { subject: "F", predicate: 30, object: "G" },
+        { subject: "G", predicate: 20, object: "C" }
+    ];
+    function colorNode(targetNode) {
+        var node = d3.select("#node-" + targetNode).transition()
+            .style("stroke", "#FC4A1A")
+            .style("fill", "#FC4A1A")
+            .delay(8000)
+            .duration(1000)
+    }
 
+    function colorVisitedNode(i) {
+        d3.select("#node-" + i)
+            .transition()
+            .style("stroke", "#F7B733")
+            .style("fill", "#F7B733")
+            .delay(function () { return 1000 * i })
+            .duration(1000)
+    }
 
+    var graph = window.directedgraph(triples, 10);
 
-  		];
-		
-
-    var graph = window.directedgraph(triples);
-    // console.log(graph);
-    //window.dfs(graph, 0, 5);
+    var count = graph.nodes.length;
+    var matrix = matrix(count, count, Infinity);
+    console.log(matrix);
+    graph.links.forEach(link => {
+        matrix[link.source.index][link.target.index] = link.predicate;
+    });
+    console.log(matrix);
+    var shortestDist = window.ucs(1, 6, matrix, colorNode, colorVisitedNode);
+    console.log(shortestDist);
 </script>
 
 </html>

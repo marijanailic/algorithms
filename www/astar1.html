@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Master Algorithms</title>
+    <link rel="stylesheet" href="./css/app.css">
+</head>
+
+<body>
+    <label class="show-menu">A* Search</label>
+    <p>Start: A End: G
+        <br/>
+        <b>Legend:</b>
+        <span class=visited> Visited </span>
+        <span class="path"> Path</span>
+    </p>
+    <div id="graph"></div>
+    <div id="explain">A* Search starts at the tree root and explores all of the neighbor nodes at the present depth prior to moving on to the
+        nodes at the next depth level.</div>
+    <button id="step">Next</button>
+
+</body>
+<!--  <script src="cordova.js"></script> -->
+<script type="text/javascript" src="./js/d3.js"></script>
+<script type="text/javascript" src="./js/heap.js"></script>
+<script type="text/javascript" src="./js/directedgraph.js"></script>
+<script type="text/javascript" src="./js/astar.js"></script>
+
+<script>
+
+    var triples = [
+        { subject: "A",  predicate: 20,  object: "B" },
+        { subject: "B",  predicate: 20,  object: "A" },
+        { subject: "B",  predicate: 20,  object: "C" },
+        { subject: "C",  predicate: 20,  object: "B" },
+        { subject: "C",  predicate: 35,  object: "D" },
+        { subject: "D",  predicate: 35,  object: "C" },
+
+        { subject: "D",  predicate: 28,  object: "E" },
+        { subject: "E",  predicate: 28,  object: "D" },
+
+        { subject: "D",  predicate: 45,  object: "B" },
+        { subject: "B",  predicate: 45,  object: "D" },
+
+        { subject: "E",  predicate: 30, object: "A" },
+        { subject: "A",  predicate: 30, object: "E" },
+
+        { subject: "E",  predicate: 30,  object: "F" },
+        { subject: "F",  predicate: 30,  object: "E" },
+
+        { subject: "F",  predicate: 30,  object: "A" },
+        { subject: "A",  predicate: 30,  object: "F" },
+
+        { subject: "F",  predicate: 30, object: "G" },
+        { subject: "G",  predicate: 30, object: "F" },
+
+        { subject: "G",  predicate: 20,  object: "C" }
+    ];
+
+function matrix(rows, cols, defaultValue) {
+      var arr = [];
+      for (var i = 0; i < rows; i++) {
+        arr.push([]);
+        arr[i].push(new Array(cols));
+        for (var j = 0; j < cols; j++) {
+          arr[i][j] = defaultValue;
+        }
+      }
+
+      return arr;
+    }
+
+    function colorPath(targetNodeX,targetNodeY ){
+      var node=d3.select("#node-"+targetNodeX).transition()
+      .style("stroke", "#FC4A1A")
+      .style("fill", "#FC4A1A")
+      .delay(8000)
+      .duration(1000)
+
+       var node=d3.select("#node-"+targetNodeY).transition()
+      .style("stroke", "#FC4A1A")
+      .style("fill", "#FC4A1A")
+      .delay(8000)
+      .duration(1000)
+
+      var node=d3.select("#line-"+targetNodeX+"-"+targetNodeY).transition()
+      .style("stroke", "#FC4A1A")
+      .style("stroke-width", "3")
+      .delay(8000)
+      .duration(1000)
+    }
+
+    function colorVisitedNode(i){
+      d3.select("#node-"+i)
+                .transition()
+                .style("stroke", "#F7B733")
+                .style("fill", "#F7B733")
+                .delay(function(){return 1000*i})
+                .duration(1000)
+    }
+
+    var graph=window.directedgraph(triples, 10);
+
+    var count=graph.nodes.length;
+    var matrix=matrix(count,count,Infinity);
+    console.log(matrix);
+    graph.links.forEach(link => {
+        matrix[link.source.index][link.target.index]=link.predicate;
+    });
+     console.log(matrix);
+     var shortestDist = window.astar(0, 6, matrix,colorVisitedNode,colorPath); 
+     console.log(shortestDist);
+ 
+</script>
+
+</html>

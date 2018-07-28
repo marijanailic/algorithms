@@ -1,48 +1,68 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <title>Master Algorithms</title>
-        <link rel="stylesheet" href="./css/app.css">
-    </head>
-    <body>
-        <label class="show-menu">Breadth First Search</label>
-        <p>Start: 0 End: 5 <br/>
-        <b>Legend:</b><span class=visited> Visited </span><span class="path"> Path</span></p>
-        <div id="graph"></div>
-        <div id="explain">Breadth First search starts at the tree root and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.</div>
-        <button id="step">Next</button>
 
-    </body>
-  <!--  <script src="cordova.js"></script> -->
-    <script type="text/javascript" src="./js/d3.js"></script>
-    <script type="text/javascript" src="./js/search.js"></script>
-    <script type="text/javascript" src="./js/app.js"></script>
-    <script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Master Algorithms</title>
+    <link rel="stylesheet" href="./css/app.css">
+</head>
 
-          var treeData =
-                {
-                "name": "0",
+<body>
+    <label class="show-menu">Breadth First Search</label>
+    <p>Start: 0 End: 5
+        <br/>
+        <b>Legend:</b>
+        <span class=visited> Visited </span>
+        <span class="path"> Path</span>
+    </p>
+    <div id="graph"></div>
+    <div id="explain" class="text-content">
+            <p>Breadth-first search is a simple strategy in which the root node is expanded first, then all the successors of the
+            root node are expanded next. then their sucessor and so on In general, all the nodes are expanded at a given
+            depth in the search tree before any nodes at the next level are extended</p> <p>Breadth-first search is an istance
+        of the general graph-search algorithm in which the
+        <i>shallowest</i> unexpanded node is chosen for expansion. This is achieved very simple by using FIFO queue for the
+        frontier. Thus, new nodes (which are always deeper than their parents) go to the back of the queue, and old nodes,
+        which are shallower than the new nodes, get expanded first</p>
+        <p>Goal test is applied to each node when it is generated rather than when it is selected for expansion. Also, algorithm
+            discards any new path to a state already in a frontier or explored set. Such path must be at least as deep as
+            the one already found. Thus, BFS always has teh shallowest path to every node on the frontier.</p>
+    </div>
+    <button id="step">Next</button>
+    <div class="back">
+            <a href="index.html">BACK</a>
+        </div>
+</body>
+<!--  <script src="cordova.js"></script> -->
+<script type="text/javascript" src="./js/d3.js"></script>
+<script type="text/javascript" src="./js/search.js"></script>
+<script type="text/javascript" src="./js/app.js"></script>
+<script>
+
+    var treeData =
+    {
+        "name": "0",
+        "children": [
+            {
+                "name": "1",
                 "children": [
-                    {
-                    "name": "1",
-                    "children": [
-                        { "name": "3" },
-                        { "name": "4" }
-                    ]
-                    },
-                    {
-                    "name": "2",
-                    "children": [
-                        { "name": "5" },
-                        { "name": "6" }
-                    ]
-                    }
+                    { "name": "3" },
+                    { "name": "4" }
                 ]
-                };
-           // window.bfs(graph,0,5);
-           var graph=window.graph(treeData);
-            window.bfs(graph,0,5);
-        </script>
+            },
+            {
+                "name": "2",
+                "children": [
+                    { "name": "5" },
+                    { "name": "6" }
+                ]
+            }
+        ]
+    };
+    // window.bfs(graph,0,5);
+    var graph = window.graph(treeData);
+    window.bfs(graph, 0, 5);
+</script>
+
 </html>

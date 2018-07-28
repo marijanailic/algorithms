@@ -1,3 +1,4 @@
+
 (function (draw) {
   'use strict';
 
@@ -7,57 +8,41 @@
       return nodes.filter(function (n) { return n.id === id; });
     }
 
-    function triplesToGraph(triples) {
+    function triplesToGraph(triples, scale) {
 
-
-
-      //svg.html("");
-      //Graph
       var graph = { nodes: [], links: [] };
 
       //Initial Graph from triples
-      triples.forEach(function (triple) {
+      triples.forEach(function (triple, i) {
         var subjId = triple.subject;
         var predId = triple.predicate;
         var objId = triple.object;
-        var weightValue = triple.predicate * 10;
+        var weightValue = triple.predicate * scale;
+     
 
         var subjNode = filterNodesById(graph.nodes, subjId)[0];
-        var objNode = filterNodesById(graph.nodes, objId)[0];
 
         if (subjNode == null) {
-          subjNode = { id: subjId, label: subjId, weight: weightValue };
+          subjNode = { id: subjId, label: subjId, weight: weightValue};
           graph.nodes.push(subjNode);
         }
 
+        var objNode = filterNodesById(graph.nodes, objId)[0];
         if (objNode == null) {
-          objNode = { id: objId, label: objId, weight: weightValue };
+          objNode = { id: objId, label: objId, weight: weightValue};
           graph.nodes.push(objNode);
         }
 
 
-        graph.links.push({ source: subjNode, target: objNode, predicate: predId, weight: weightValue });
+        graph.links.push({ source: subjNode, target: objNode, predicate: predId, weight: weightValue, id: (graph.nodes.indexOf(subjNode)+"-"+graph.nodes.indexOf(objNode)) });
       });
 
       return graph;
     }
 
 
-    function update(graph, svg) {
-
-      svg.append("svg:defs").selectAll("marker")
-        .data(["end"])
-        .enter().append("svg:marker")
-        .attr("id", String)
-        .attr("viewBox", "0 -5 10 10")
-        .attr("refX", 30)
-        .attr("refY", -0.5)
-        .attr("markerWidth", 6)
-        .attr("markerHeight", 6)
-        .attr("orient", "auto")
-        .append("svg:polyline")
-        .attr("points", "0,-5 10,0 0,5")
-        ;
+    function update(graph, svg,width,height) {
+  
 
       var links = svg.selectAll(".link")
         .data(graph.links)
@@ -65,6 +50,9 @@
         .append("line")
         .attr("marker-end", "url(#end)")
         .attr("class", "end-link")
+        .attr("id",function(d){
+          return "line-"+d.id;
+        })
         .attr("stroke-width", 1)
         ;//links
 
@@ -84,16 +72,16 @@
         .attr("class", "node-text")
         .attr("dy", ".35em")
         .attr("y", function (d) { return d.children ? 0 : 0; })
-        .style("text-anchor", "middle")
+        .style("text-anchor", "left")
         .text(function (d) { return d.label; })
         ;
 
-      //nodeTexts.append("title")
-      //		.text(function(d) { return d.label; });
+ 
       var force = d3.forceSimulation().nodes(graph.nodes);
+      
 
       var charge_force = d3.forceManyBody().strength(-100);
-      var center_force = d3.forceCenter(300, 300);
+      var center_force = d3.forceCenter(width / 2, height / 2);
       var link_force = d3.forceLink(graph.links)
         .id(function (d) {
           return d.weight;
@@ -110,6 +98,9 @@
         .data(graph.nodes)
         .enter()
         .append("circle")
+        .attr("id", function (d) { 
+          return "node-" + d.index;
+         })
         .attr("class", "node")
         .style("stroke", "#4ABDAC")
         .style("fill", "#4ABDAC")
@@ -141,27 +132,23 @@
           ;
       });
 
-      force
-        .nodes(graph.nodes)
-
-      d3.forceLink(graph.links)
-        .distance(100);
+      
 
     }
 
-    return function (triples) {
-      // set the dimensions and margins of the diagram
-      var margin = { top: 40, right: 90, bottom: 50, left: 90 };
-
+    return function (triples,scale) {
+      var margin = { top: 40, right: 20, bottom: 50, left: 20 },
+      width = 660 - margin.left - margin.right,
+      height = 660 - margin.top - margin.bottom,
+      viewbox="0 0 660 660";
       var svg = d3.select("#graph").append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", "0 0 660 500");
+        .attr("viewBox", viewbox);
 
+      var graph = triplesToGraph(triples, scale);
 
-
-      var graph = triplesToGraph(triples);
-
-      update(graph, svg);
+      update(graph, svg,width,height);
+      return graph;
     };
 
   })();
